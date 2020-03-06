@@ -1,0 +1,32 @@
+{
+  "name": "ventaenlinea",
+  "version": "1.0.0",
+  "description": "Programa Gestor de Ventas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon Index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JSolares2016515/VentaEnLina.git"
+  },
+  "author": "Jóse Solares",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JSolares2016515/VentaEnLina/issues"
+  },
+  "homepage": "https://github.com/JSolares2016515/VentaEnLina#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jwt-simple": "^0.5.6",
+    "moment": "^2.24.0",
+    "mongoose": "^5.9.3"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.2"
+  }
+}
