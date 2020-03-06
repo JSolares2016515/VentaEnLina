@@ -10,3 +10,5 @@ const productSchema = Schema({
     stock: Number,
     category: {type:Schema.Types.ObjectId, ref: 'category'}
 });
+
+module.exports = Mongoose.model('product', productSchema);
