@@ -1,6 +1,6 @@
 'use strict'
 
-const jwt = require('../services/jwt');
+const jwt = require('jwt-simple');
 const moment = require('moment');
 const key = '1999';
 

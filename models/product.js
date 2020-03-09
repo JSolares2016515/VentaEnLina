@@ -2,13 +2,14 @@
 
 const Mongoose = require('mongoose');
 
-const Schema = Mongoose.Schema();
+const Schema = Mongoose.Schema;
 
 const productSchema = Schema({
     name: String,
-    description: Number,
+    description: String,
     stock: Number,
-    category: {type:Schema.Types.ObjectId, ref: 'category'}
+    price: Number,
+    category: {type:Schema.Types.Mixed, ref: 'category'}
 });
 
 module.exports = Mongoose.model('product', productSchema);

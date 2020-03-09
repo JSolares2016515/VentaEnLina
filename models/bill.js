@@ -2,7 +2,7 @@
 
 const Mongoose = require('mongoose');
 
-const Schema = Mongoose.Schema();
+const Schema = Mongoose.Schema;
 
 const billSchema = Schema({
     client: {type:Schema.Types.ObjectId, ref: 'user'},

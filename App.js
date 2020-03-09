@@ -6,6 +6,11 @@ const Morgan = require('morgan');
 
 const App = Express();
 
+const userRoutes = require('./routes/user.routes');
+const categoryRoutes = require('./routes/category.routes');
+const productRoutes = require('./routes/product.routes');
+const cartRoutes = require('./routes/shoppingCart.routes');
+
 App.use(BodyParser.urlencoded({extended: false}));
 App.use(BodyParser.json());
 App.use(Morgan(':method :url :status :res[content-length] - :response-time ms'));
@@ -17,5 +22,10 @@ App.use((req, res, next) => {
 	res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 	next();
 });
+
+App.use('/user', userRoutes);
+App.use('/category', categoryRoutes);
+App.use('/product', productRoutes);
+App.use('/cart', cartRoutes);
 
 module.exports = App;
