@@ -9,7 +9,8 @@ const billSchema = Schema({
     products: [{
         _id: {type:Schema.Types.ObjectId, ref: 'product'},
         amount: Number
-    }]
+    }],
+    total: Number
 });
 
 module.exports = Mongoose.model('bill', billSchema);

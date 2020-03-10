@@ -10,6 +10,7 @@ const userRoutes = require('./routes/user.routes');
 const categoryRoutes = require('./routes/category.routes');
 const productRoutes = require('./routes/product.routes');
 const cartRoutes = require('./routes/shoppingCart.routes');
+const billRoutes = require('./routes/bill.routes');
 
 App.use(BodyParser.urlencoded({extended: false}));
 App.use(BodyParser.json());
@@ -27,5 +28,6 @@ App.use('/user', userRoutes);
 App.use('/category', categoryRoutes);
 App.use('/product', productRoutes);
 App.use('/cart', cartRoutes);
+App.use('/bill', billRoutes);
 
 module.exports = App;

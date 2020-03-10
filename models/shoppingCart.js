@@ -8,8 +8,7 @@ const shoppingCartSchema = Schema({
     client: {type:Schema.Types.ObjectId, ref: 'user'},
     products: [{
         _id: {type:Schema.Types.ObjectId, ref: 'product'},
-        amount: Number,
-        cost: Number
+        amount: Number
     }],
     total: Number
 });

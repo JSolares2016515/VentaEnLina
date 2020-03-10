@@ -4,7 +4,6 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('../services/jwt');
 
-
 function registerUser(req, res) {
     const params = req.body;
     const user = User();
@@ -57,48 +56,94 @@ function listUsers(req, res) {
 function updateUser(req, res) {
     const userID = req.params.id;
     let update = req.body;
-    if (update.password) {
-        bcrypt.hash(update.password, null, null, (err, hashPassword) => {
-            if (err) {
-                res.status(500).send({message: 'Error al encriptar'});
-            } else {
-                update.password = hashPassword;
-                User.findByIdAndUpdate(userID, update, {new:true}, (err, userUpdated) => {
-                    if (err) {
-                        res.status(500).send({message: 'Error en la base de datos'});
-                    } else if (userUpdated) {
-                        res.send({'User Updated': userUpdated});
-                    } else {
-                        res.status(503).send({message: 'Usuario no actualizado, intente más tarde'});
-                    }
-                });
-            }
-        });
+    if (req.user.role == 'ADMIN') {
+        if (update.password) {
+            bcrypt.hash(update.password, null, null, (err, hashPassword) => {
+                if (err) {
+                    res.status(500).send({message: 'Error al encriptar'});
+                } else {
+                    update.password = hashPassword;
+                    User.findByIdAndUpdate(userID, update, {new:true}, (err, userUpdated) => {
+                        if (err) {
+                            res.status(500).send({message: 'Error en la base de datos'});
+                        } else if (userUpdated) {
+                            res.send({'User Updated': userUpdated});
+                        } else {
+                            res.status(503).send({message: 'Usuario no actualizado, intente más tarde'});
+                        }
+                    });
+                }
+            });
+        } else {
+            User.findByIdAndUpdate(userID, update, {new:true}, (err, userUpdated) => {
+                if (err) {
+                    res.status(500).send({message: 'Error en la base de datos'});
+                } else if (userUpdated) {
+                    res.send({'User Updated': userUpdated});
+                } else {
+                    res.status(503).send({message: 'Usuario no actualizado, intente más tarde'});
+                }
+            });
+        }
+    } else if (userID == req.user.sub) {
+        if (update.password) {
+            bcrypt.hash(update.password, null, null, (err, hashPassword) => {
+                if (err) {
+                    res.status(500).send({message: 'Error al encriptar'});
+                } else {
+                    update.password = hashPassword;
+                    User.findByIdAndUpdate(userID, update, {new:true}, (err, userUpdated) => {
+                        if (err) {
+                            res.status(500).send({message: 'Error en la base de datos'});
+                        } else if (userUpdated) {
+                            res.send({'User Updated': userUpdated});
+                        } else {
+                            res.status(503).send({message: 'Usuario no actualizado, intente más tarde'});
+                        }
+                    });
+                }
+            });
+        } else {
+            User.findByIdAndUpdate(userID, update, {new:true}, (err, userUpdated) => {
+                if (err) {
+                    res.status(500).send({message: 'Error en la base de datos'});
+                } else if (userUpdated) {
+                    res.send({'User Updated': userUpdated});
+                } else {
+                    res.status(503).send({message: 'Usuario no actualizado, intente más tarde'});
+                }
+            });
+        }
     } else {
-        User.findByIdAndUpdate(userID, update, {new:true}, (err, userUpdated) => {
-            if (err) {
-                res.status(500).send({message: 'Error en la base de datos'});
-            } else if (userUpdated) {
-                res.send({'User Updated': userUpdated});
-            } else {
-                res.status(503).send({message: 'Usuario no actualizado, intente más tarde'});
-            }
-        });
-    }
-    
+        res.status(400).send({message: 'Error de permisos', user: userID, userID: req.user.sub});
+    }  
 }
 
 function deleteUser(req, res) {
     const userID = req.params.id;
-    User.findByIdAndDelete(userID, (err, userDeleted) => {
-        if (err) {
-            res.status(500).send({message: 'Error en la base de datos'});
-        } else if (userDeleted) {
-            res.send({'User Deleted': userDeleted});
-        } else {
-            res.status(503).send({message: 'Usuario no eliminado, intente más tarde'});
-        }
-    })
+    if (req.user.role == 'ADMIN') {
+        User.findByIdAndDelete(userID, (err, userDeleted) => {
+            if (err) {
+                res.status(500).send({message: 'Error en la base de datos'});
+            } else if (userDeleted) {
+                res.send({'User Deleted': userDeleted});
+            } else {
+                res.status(503).send({message: 'Usuario no eliminado, intente más tarde'});
+            }
+        })
+    } else if (userID == req.user.sub) {
+        User.findByIdAndDelete(userID, (err, userDeleted) => {
+            if (err) {
+                res.status(500).send({message: 'Error en la base de datos'});
+            } else if (userDeleted) {
+                res.send({'User Deleted': userDeleted});
+            } else {
+                res.status(503).send({message: 'Usuario no eliminado, intente más tarde'});
+            }
+        })
+    } else {
+        res.status(400).send({message: 'Error de permisos', permiso1: req.user.role});
+    }
 }
 
 function login(req, res) {
